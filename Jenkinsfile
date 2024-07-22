@@ -32,5 +32,10 @@ pipeline{
                 echo "${stage_name} stage failed."
             }
         }
+        success {
+            script {
+                echo "${stage_name} stage pass. I run when success!."
+            }
+        }
     }
 }
