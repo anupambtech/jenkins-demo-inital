@@ -4,14 +4,14 @@ pipeline{
     agent any
        // agent {docker {image 'maven:3.6.3'}}
 
-parameters {
-        choice(name: 'environment', choices: "sandbox\nstaging\nproduction", description: 'Select Environment')
-        choice(name: 'suiteXmlFile', choices: "BillingSuite.xml\nCoreAPISuite.xml\nvisualizerTesting.xml", description: 'Select Test suite')
-        string(name: 'tags', defaultValue: '@Retrieve', description: 'Tag[s] to run specific tests')
-    }
+//parameters {
+ //       choice(name: 'environment', choices: "sandbox\nstaging\nproduction", description: 'Select Environment')
+ //       choice(name: 'suiteXmlFile', choices: "BillingSuite.xml\nCoreAPISuite.xml\nvisualizerTesting.xml", description: 'Select Test suite')
+ //       string(name: 'tags', defaultValue: '@Retrieve', description: 'Tag[s] to run specific tests')
+ //   }
 
         stages{
-            stage ('Build') {
+            stage ('Checkout') {
                 steps {
                   //  sh 'mvn --version'
                     echo "build"
@@ -22,6 +22,9 @@ parameters {
                     echo "BUILD_TAG - $env.BUILD_TAG"
                     echo "BUILD_URL - $env.BUILD_URL"
                 }
+            }
+            stage("Build"){
+                sh "mvn clean compile"
             }
             stage ('Test') {
                 steps {
