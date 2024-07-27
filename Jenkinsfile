@@ -45,6 +45,28 @@ pipeline{
                     echo "Integration test"
                 }
             }
+            stage ('Package') {
+                steps {
+                    sh 'mvn package -DskipTests'
+                }
+            }
+            stage ('Build docker Image') {
+                steps {
+                    //sh 'docker build -t anupam2485/jenkins-demo-initial:$env.BUILD_TAG'
+                    script{
+                        dockerImage=docker.build("anupam2485/jenkins-demo-initial:${env.BUILD_TAG}")
+                    }
+                }
+            }
+            stage ('Push docker image') {
+                steps {
+                    script{
+                        docker.withRegistry('','927f90e7-6cd4-4191-9209-9c4b9ee96a2d');
+                        dockerImage.Push();
+                        dockerImage.Push('latest')
+                    }
+                }
+            }
         }
         post {
         always {
