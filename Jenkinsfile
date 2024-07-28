@@ -61,9 +61,10 @@ pipeline{
             stage ('Push docker image') {
                 steps {
                     script{
-                        docker.withRegistry('https://hub.docker.com/','927f90e7-6cd4-4191-9209-9c4b9ee96a2d');
+                        docker.withRegistry('','927f90e7-6cd4-4191-9209-9c4b9ee96a2d'){
                         dockerImage.Push();
                         dockerImage.Push('latest')
+                        }
                     }
                 }
             }
